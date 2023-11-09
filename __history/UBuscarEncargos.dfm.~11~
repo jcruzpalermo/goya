@@ -1,0 +1,162 @@
+object FBuscarEncargos: TFBuscarEncargos
+  Left = 0
+  Top = 0
+  Caption = 'Sistema Goya - Buscar Encargos'
+  ClientHeight = 379
+  ClientWidth = 702
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGEncargo: TDBGrid
+    Left = 23
+    Top = 72
+    Width = 569
+    Height = 122
+    DataSource = DataModule1.DSEncargo
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IdEncargo'
+        Width = 26
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FechaEnc'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DetalleEnc'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Nombre'
+        Width = 78
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Se'#241'a'
+        Width = 43
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'estado'
+        Width = 116
+        Visible = True
+      end>
+  end
+  object DBIDEnc: TDBEdit
+    Left = 415
+    Top = 24
+    Width = 57
+    Height = 21
+    DataField = 'IdEncargo'
+    DataSource = DataModule1.DSEncargo
+    ReadOnly = True
+    TabOrder = 1
+  end
+  object RBIdEncargo: TRadioButton
+    Left = 24
+    Top = 26
+    Width = 73
+    Height = 17
+    Caption = 'Id Encargo'
+    Checked = True
+    TabOrder = 2
+    TabStop = True
+  end
+  object RBNombre: TRadioButton
+    Left = 103
+    Top = 26
+    Width = 57
+    Height = 17
+    Caption = 'Nombre'
+    TabOrder = 3
+  end
+  object EEncargo: TEdit
+    Left = 166
+    Top = 24
+    Width = 121
+    Height = 21
+    TabOrder = 4
+  end
+  object BBBuscarEncargo: TBitBtn
+    Left = 309
+    Top = 22
+    Width = 75
+    Height = 25
+    Caption = '&Buscar'
+    Kind = bkHelp
+    NumGlyphs = 2
+    TabOrder = 5
+    OnClick = BBBuscarEncargoClick
+  end
+  object CBEstadoEnc: TComboBox
+    Left = 166
+    Top = 227
+    Width = 150
+    Height = 21
+    Style = csDropDownList
+    ItemIndex = 1
+    TabOrder = 7
+    Text = 'impreso'
+    Items.Strings = (
+      'pendiente de impresi'#243'n'
+      'impreso'
+      'entregado'
+      'caduco')
+  end
+  object BEstado: TButton
+    Left = 390
+    Top = 218
+    Width = 97
+    Height = 39
+    Caption = 'Cambiar Estado'
+    TabOrder = 8
+  end
+  object BBListar: TBitBtn
+    Left = 24
+    Top = 220
+    Width = 89
+    Height = 35
+    Caption = '&Listar por'
+    Glyph.Data = {
+      DE010000424DDE01000000000000760000002800000024000000120000000100
+      0400000000006801000000000000000000001000000000000000000000000000
+      80000080000000808000800000008000800080800000C0C0C000808080000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00388888888877
+      F7F787F8888888888333333F00004444400888FFF444448888888888F333FF8F
+      000033334D5007FFF4333388888888883338888F0000333345D50FFFF4333333
+      338F888F3338F33F000033334D5D0FFFF43333333388788F3338F33F00003333
+      45D50FEFE4333333338F878F3338F33F000033334D5D0FFFF43333333388788F
+      3338F33F0000333345D50FEFE4333333338F878F3338F33F000033334D5D0FFF
+      F43333333388788F3338F33F0000333345D50FEFE4333333338F878F3338F33F
+      000033334D5D0EFEF43333333388788F3338F33F0000333345D50FEFE4333333
+      338F878F3338F33F000033334D5D0EFEF43333333388788F3338F33F00003333
+      4444444444333333338F8F8FFFF8F33F00003333333333333333333333888888
+      8888333F00003333330000003333333333333FFFFFF3333F00003333330AAAA0
+      333333333333888888F3333F00003333330000003333333333338FFFF8F3333F
+      0000}
+    NumGlyphs = 2
+    TabOrder = 6
+    OnClick = BBListarClick
+  end
+end

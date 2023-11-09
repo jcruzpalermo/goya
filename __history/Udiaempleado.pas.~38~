@@ -1,0 +1,131 @@
+unit Udiaempleado;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, FireDAC.Stan.Param, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls;
+
+type
+  TFDiaEmpleado = class(TForm)
+    DBGEmpAct: TDBGrid;
+    StaticText1: TStaticText;
+    DBEEmpAct: TDBEdit;
+    SBAgregar: TSpeedButton;
+    SBBorrar: TSpeedButton;
+    DBEIdUltCaja: TDBEdit;
+    DBGDiaEmp: TDBGrid;
+    DBEIdEmpleadodeldia: TDBEdit;
+    BBFinalizar: TBitBtn;
+    procedure FormCreate(Sender: TObject);
+    procedure SBAgregarClick(Sender: TObject);
+    procedure SBBorrarClick(Sender: TObject);
+    procedure DBEIdEmpleadodeldiaChange(Sender: TObject);
+    procedure BBFinalizarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FDiaEmpleado: TFDiaEmpleado;
+  emp : Integer;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule, UPrincipal;
+
+procedure TFDiaEmpleado.BBFinalizarClick(Sender: TObject);
+begin
+   if FPrincipal.CBTurno.ItemIndex = 0 then
+     begin
+       DataModule1.FDTFechaTurno.Locate('Idfec','1');
+       DataModule1.FDTFechaTurno.ParamByName('TurnoSist').AsInteger := 1;
+       DataModule1.FDTFechaTurno.Active := False;
+       DataModule1.FDTFechaTurno.Active := True;
+       FPrincipal.BFechaTurno.Click;
+       FDiaEmpleado.Close;
+       ShowMessage('La caja se cerró con exito y el turno del sistema fue modificado a "Turno Tarde"');
+     end
+   else
+     begin
+       FPrincipal.DateTimePicker1.Date := FPrincipal.DateTimePicker1.Date + 1;
+       FPrincipal.DateTimePicker1.MinDate := FPrincipal.DateTimePicker1.Date;
+       DataModule1.FDTFechaTurno.Locate('Idfec','1');
+       DataModule1.FDTFechaTurno.ParamByName('FechaSist').AsDate := FPrincipal.DateTimePicker1.Date;
+       DataModule1.FDTFechaTurno.ParamByName('TurnoSist').AsInteger := 0;
+       DataModule1.FDTFechaTurno.Active := False;
+       DataModule1.FDTFechaTurno.Active := True;
+       FPrincipal.BFechaTurno.Click;
+           with DataModule1.FDTLogica do
+               begin
+                 Locate('IdLog', 6);
+                 Edit;
+                 FieldByName('MontoLog').AsFloat := 1;
+                 Post;
+               end;
+                 DataModule1.FDQHabilitar.Active := False;
+                 DataModule1.FDQHabilitar.Active := True;
+                 DataModule1.FDQTarjetas.Active := False;
+                 DataModule1.FDQTarjetas.Active := True;
+                 FPrincipal.BHabilitar.Click;
+                 FDiaEmpleado.Close;
+     end;
+
+end;
+
+procedure TFDiaEmpleado.DBEIdEmpleadodeldiaChange(Sender: TObject);
+begin
+ if (DBEIdEmpleadodeldia.Text = '') then
+   begin
+     SBBorrar.Enabled := False;
+   end
+ else
+   begin
+     SBBorrar.Enabled := True;
+   end;
+
+end;
+
+procedure TFDiaEmpleado.FormCreate(Sender: TObject);
+begin
+
+         SBBorrar.Enabled := False;
+         emp := StrToInt(DBEIdUltCaja.Text);
+         DataModule1.FDQEmpleadodeldia.ParamByName('emp').AsInteger := StrToInt(DBEIdUltCaja.Text);
+         DataModule1.FDQEmpleadodeldia.Active := True;
+end;
+
+procedure TFDiaEmpleado.SBAgregarClick(Sender: TObject);
+begin
+   DataModule1.FDQEmpleadodeldia.Active := False;
+   with DataModule1.FDTDiaEmp do
+               begin
+                 Open;
+                 Append;
+                 FieldByName('IdCaja').AsInteger := StrToInt(DBEIdUltCaja.Text);
+                 FieldByName('Empleado').AsString := DBEEmpAct.Text;
+                 Post;//realizar alta
+               end;
+   emp := StrToInt(DBEIdUltCaja.Text);
+   DataModule1.FDQEmpleadodeldia.ParamByName('emp').AsInteger := StrToInt(DBEIdUltCaja.Text);
+   DataModule1.FDQEmpleadodeldia.Active := True;
+end;
+
+procedure TFDiaEmpleado.SBBorrarClick(Sender: TObject);
+begin
+
+   with DataModule1.FDTDiaEmp do
+               begin
+                 Locate('IdDiaEmp', StrToInt(DBEIdEmpleadodeldia.Text));
+                 Delete;
+               end;
+   DataModule1.FDQEmpleadodeldia.Active := False;
+   DataModule1.FDQEmpleadodeldia.Active := True;
+end;
+
+end.

@@ -1,0 +1,256 @@
+unit UVentas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Grids,
+  Vcl.Buttons;
+
+type
+  TFVentasAgregar = class(TForm)
+    SGLineadeVenta: TStringGrid;
+    LEIdProducto: TLabeledEdit;
+    LECantidad: TLabeledEdit;
+    CHAnillado: TCheckBox;
+    BBFinalizarVenta: TBitBtn;
+    BBVolver: TBitBtn;
+    BBAgregarLinea: TBitBtn;
+    BBEliminarLinea: TBitBtn;
+    LEAnillado: TLabeledEdit;
+    BBBuscar: TBitBtn;
+    BBLimpiar: TBitBtn;
+    LEDescripcion: TLabeledEdit;
+    LEPrecioU: TLabeledEdit;
+    LETotal: TLabeledEdit;
+    BBLimpiarGrilla: TBitBtn;
+    SBResma: TSpeedButton;
+    procedure BBVolverClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure CHAnilladoClick(Sender: TObject);
+    procedure BBLimpiarClick(Sender: TObject);
+    procedure BBBuscarClick(Sender: TObject);
+    procedure LEIdProductoKeyPress(Sender: TObject; var Key: Char);
+    procedure LEPrecioUKeyPress(Sender: TObject; var Key: Char);
+    procedure BBAgregarLineaClick(Sender: TObject);
+    procedure BBEliminarLineaClick(Sender: TObject);
+    procedure BBLimpiarGrillaClick(Sender: TObject);
+    procedure BBFinalizarVentaClick(Sender: TObject);
+    procedure SBResmaClick(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FVentasAgregar: TFVentasAgregar;
+  j: Integer;
+  B: Boolean;
+  aux, tot: Double;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule, UFinalizarVenta, UPrincipal;
+
+procedure TFVentasAgregar.BBAgregarLineaClick(Sender: TObject);
+begin
+  if ((LEDescripcion.Text = '') or (LEPrecioU.Text = '') or (LECantidad.Text = '') or (LEAnillado.Text = '')) then
+    begin
+      ShowMessage('Ningún campo puede estar vacio');
+    end
+  else
+    begin
+      j := j+1;
+      aux := ((StrToFloat(LEPrecioU.Text) + StrToFloat(LEAnillado.Text)) * StrToInt(LECantidad.Text));
+      SGLineadeVenta.Cells[0,j] := LEIdProducto.Text;
+      SGLineadeVenta.Cells[1,j] := LEDescripcion.Text;
+      if CHAnillado.Checked = True then
+        begin
+          SGLineadeVenta.Cells[2,j] := '1';
+        end
+      else
+        begin
+          SGLineadeVenta.Cells[2,j] := '0';
+        end;
+      SGLineadeVenta.Cells[3,j] := LEAnillado.Text;
+      SGLineadeVenta.Cells[4,j] := LEPrecioU.Text;
+      SGLineadeVenta.Cells[5,j] := LECantidad.Text;
+      SGLineadeVenta.Cells[6,j] := FloatToStr(aux);
+      tot := (tot + aux);
+      LETotal.Text := FloatToStr(tot);
+      BBLimpiar.Click;
+    end;
+end;
+
+procedure TFVentasAgregar.BBBuscarClick(Sender: TObject);
+begin
+   LEDescripcion.Enabled := False;
+   LEDescripcion.Text := '';
+   if ((LEIdProducto.Text = '') or (LEIdProducto.Text = '0')) then
+     begin
+        ShowMessage('Por favor ingrese Id del producto a agregar');
+        LEIdProducto.Text := '';
+     end
+   else
+     begin
+       if (StrToInt(LEIdProducto.Text) = 99) then
+           begin
+             LEDescripcion.Enabled := True;
+
+           end
+       else
+           begin
+                B := False;
+                DataModule1.FDTProducto.Close;
+                DataModule1.FDTProducto.Open;
+                while not DataModule1.FDTProducto.Eof do
+                   begin
+                      if ((DataModule1.FDTProducto.FieldByName('IdProducto').AsFloat) = (StrToFloat(LEIdProducto.Text)))  then
+                          begin
+                             B := True;
+                             LEDescripcion.Text :=  DataModule1.FDTProducto.FieldByName('Descripcion').AsString;
+                             LEPrecioU.Text :=  DataModule1.FDTProducto.FieldByName('PrecioU').AsString;
+                          end;
+                      DataModule1.FDTProducto.Next;
+                   end;
+                if B = False then
+                  begin
+                    ShowMessage('No existe ningún producto con ese ID');
+                  end;
+                DataModule1.FDTProducto.Close;
+                DataModule1.FDTProducto.Open;
+           end;
+     end;
+end;
+
+procedure TFVentasAgregar.BBEliminarLineaClick(Sender: TObject);
+begin
+  if j = 0 then
+    begin
+      ShowMessage('No hay ninguna linea para eliminar');
+    end
+  else
+    begin
+        aux := StrToFloat(SGLineadeVenta.Cells[6,j]);
+        tot := tot - aux;
+        LETotal.Text := FloatToStr(tot);
+        SGLineadeVenta.Cells[0,j] := '';
+        SGLineadeVenta.Cells[1,j] := '';
+        SGLineadeVenta.Cells[2,j] := '';
+        SGLineadeVenta.Cells[3,j] := '';
+        SGLineadeVenta.Cells[4,j] := '';
+        SGLineadeVenta.Cells[5,j] := '';
+        SGLineadeVenta.Cells[6,j] := '';
+        j := j - 1;
+    end;
+end;
+
+procedure TFVentasAgregar.BBFinalizarVentaClick(Sender: TObject);
+begin
+    if ((LETotal.Text = '') or (LETotal.Text = '0') or (SGLineadeVenta.Cells[0,1] = '')) then
+       begin
+         ShowMessage('La grilla o el total se encuentran vacios');
+       end
+    else
+       begin
+          FFinalizarVenta.EJ.Text := IntToStr(j);
+          FFinalizarVenta.ShowModal;
+
+         //crear venta completa
+         //crear lineas de venta
+       end;
+end;
+
+procedure TFVentasAgregar.BBLimpiarClick(Sender: TObject);
+begin
+  LEAnillado.Visible := False;
+  LEAnillado.Text := '0';
+  LECantidad.Text := '1';
+  CHAnillado.Checked := False;
+  LEIdProducto.Text := '';
+  LEDescripcion.Text := '';
+  LEPrecioU.Text := '0';
+end;
+
+procedure TFVentasAgregar.BBLimpiarGrillaClick(Sender: TObject);
+begin
+   while j > 0 do
+    begin
+      BBEliminarLinea.Click;
+    end;
+end;
+
+procedure TFVentasAgregar.BBVolverClick(Sender: TObject);
+begin
+  BBLimpiar.Click;
+  BBLimpiarGrilla.Click;
+  FVentasAgregar.Close;
+end;
+
+procedure TFVentasAgregar.CHAnilladoClick(Sender: TObject);
+begin
+ if CHAnillado.Checked = True then
+   begin
+     LEAnillado.Visible := True;
+   end
+ else
+   begin
+     LEAnillado.Visible := False;
+   end;
+end;
+
+procedure TFVentasAgregar.FormCreate(Sender: TObject);
+begin
+  SGLineadeVenta.Cells[0,0] := 'ID Prod';
+  SGLineadeVenta.Cells[1,0] := 'Descripción';
+  SGLineadeVenta.Cells[2,0] := 'Anillado';
+  SGLineadeVenta.Cells[3,0] := 'Precio Anillado';
+  SGLineadeVenta.Cells[4,0] := 'Precio Unitario';
+  SGLineadeVenta.Cells[5,0] := 'Cantidad';
+  SGLineadeVenta.Cells[6,0] := 'Monto';
+  BBLimpiar.Click;
+  BBLimpiarGrilla.Click;
+  j := 0;
+
+
+
+end;
+
+procedure TFVentasAgregar.LEIdProductoKeyPress(Sender: TObject; var Key: Char);
+begin
+ if Key = #13 then
+   begin
+     BBBuscar.Click;
+   end;
+
+end;
+
+procedure TFVentasAgregar.LEPrecioUKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = '.') then
+  begin
+    key := #0;
+    key := ',';
+  end;
+
+ if not (CharInSet (UpCase(Key), ['0'..'9',',',#8])) then
+    begin
+      key:=#0;
+      showmessage('Por favor introduzca numeros')
+    end;
+end;
+
+
+
+procedure TFVentasAgregar.SBResmaClick(Sender: TObject);
+begin
+  FPrincipal.SBResma.Click;
+end;
+
+end.
+
+

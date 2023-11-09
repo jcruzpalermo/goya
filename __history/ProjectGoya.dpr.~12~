@@ -1,0 +1,34 @@
+program ProjectGoya;
+
+uses
+  Vcl.Forms,
+  UPrincipal in 'UPrincipal.pas' {FPrincipal},
+  UEgresos in 'UEgresos.pas' {FEgreso},
+  UDataModule in 'UDataModule.pas' {DataModule1: TDataModule},
+  UBuscarEgreso in 'UBuscarEgreso.pas' {FBuscarEgreso},
+  UEmpleado in 'UEmpleado.pas' {FEmpleado},
+  UFotocopiadora in 'UFotocopiadora.pas' {FFotocopiadora},
+  UEncargos in 'UEncargos.pas' {FEncargo},
+  UCuentas in 'UCuentas.pas' {FCuentas},
+  UProductos in 'UProductos.pas' {FProducto},
+  UVentas in 'UVentas.pas' {FVentasAgregar},
+  UOpcVenta in 'UOpcVenta.pas' {FOpcVentas};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFPrincipal, FPrincipal);
+  Application.CreateForm(TFEgreso, FEgreso);
+  Application.CreateForm(TDataModule1, DataModule1);
+  Application.CreateForm(TFBuscarEgreso, FBuscarEgreso);
+  Application.CreateForm(TFEmpleado, FEmpleado);
+  Application.CreateForm(TFFotocopiadora, FFotocopiadora);
+  Application.CreateForm(TFEncargo, FEncargo);
+  Application.CreateForm(TFCuentas, FCuentas);
+  Application.CreateForm(TFProducto, FProducto);
+  Application.CreateForm(TFVentasAgregar, FVentasAgregar);
+  Application.CreateForm(TFOpcVentas, FOpcVentas);
+  Application.Run;
+end.

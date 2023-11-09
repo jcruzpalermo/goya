@@ -1,0 +1,76 @@
+unit UActualizarCuenta;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.ExtCtrls, Vcl.Buttons, Vcl.Mask, Vcl.DBCtrls;
+
+type
+  TFActualizarCuenta = class(TForm)
+    DBGCuentas: TDBGrid;
+    CBFormadePago: TComboBox;
+    Label1: TLabel;
+    LEMonto: TLabeledEdit;
+    BBPagar: TBitBtn;
+    BBVolver: TBitBtn;
+    Label2: TLabel;
+    DBESaldo: TDBEdit;
+    procedure BBVolverClick(Sender: TObject);
+    procedure BBPagarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FActualizarCuenta: TFActualizarCuenta;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+procedure TFActualizarCuenta.BBPagarClick(Sender: TObject);
+begin
+  if LEMonto.Text = '' then
+    begin
+     LEMonto.Text := '0';
+    end;
+  if LEMonto.Text = '0' then
+    begin
+      ShowMessage('El monto debe ser superior a 0');
+    end
+  else
+    begin
+       with DataModule1.FDTCuenta do
+          begin
+             Edit;
+             FieldByName('Saldo').AsFloat := (StrToFloat(DBESaldo.Text) + StrToFloat(LEMonto.Text);
+             Post;
+             if (FieldByName('Saldo').AsFloat < FieldByName('Limite').AsFloat) then
+                begin
+                   Edit;
+                   FieldByName('Estado').AsString := 'Con Deuda';
+                   Post;
+                end
+             else
+                begin
+                   Edit;
+                   FieldByName('Estado').AsString := 'Habilitada';
+                   Post;
+                end;
+          end;
+        ShowMessage('El registro se modificó con exito');
+    end;
+end;
+
+procedure TFActualizarCuenta.BBVolverClick(Sender: TObject);
+begin
+  FActualizarCuenta.Close;
+end;
+
+end.

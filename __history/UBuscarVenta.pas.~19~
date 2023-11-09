@@ -1,0 +1,85 @@
+unit UBuscarVenta;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, FireDAC.Stan.Param, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.StdCtrls, Vcl.Buttons, Vcl.ComCtrls;
+
+type
+  TFBuscarVenta = class(TForm)
+    DBGBuscarVenta: TDBGrid;
+    Label1: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    BBBuscarIdVenta: TBitBtn;
+    CHFiltrar: TCheckBox;
+    DBGLineadeVenta: TDBGrid;
+    Label2: TLabel;
+    Label3: TLabel;
+    RBIdV: TRadioButton;
+    RBFiltrar: TRadioButton;
+    CBTurno: TComboBox;
+    Label4: TLabel;
+    EIdVenta: TEdit;
+    DBELdV: TDBEdit;
+    BBFiltrarVentas: TBitBtn;
+    BCheck: TButton;
+    procedure BBBuscarIdVentaClick(Sender: TObject);
+    procedure BCheckClick(Sender: TObject);
+    procedure DBELdVChange(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FBuscarVenta: TFBuscarVenta;
+  id: Integer;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+procedure TFBuscarVenta.BBBuscarIdVentaClick(Sender: TObject);
+ begin
+    if EIdVenta.Text = '' then
+       begin
+         ShowMessage('Ingrese Id a buscar');
+       end
+    else
+       begin
+         DBGBuscarVenta.DataSource := DataModule1.DSVenta;
+         DBELdV.DataSource := DataModule1.DSVenta;
+         DataModule1.FDTVenta.Locate('IdVenta', StrToInt(EIdVenta.Text));
+       end;
+
+ end;
+
+procedure TFBuscarVenta.BCheckClick(Sender: TObject);
+begin
+ if RBIdV.Checked = True then
+    begin
+      BBBuscarIdVenta.Enabled := True;
+      BBFiltrarVentas.Enabled := False;
+    end;
+
+ if RBFiltrar.Checked = True then
+   begin
+     BBBuscarIdVenta.Enabled := False;
+     BBFiltrarVentas.Enabled := True;
+   end;
+end;
+
+procedure TFBuscarVenta.DBELdVChange(Sender: TObject);
+begin
+       DataModule1.FDQLineadeVenta.Active := False;
+       id := StrToInt(DBELdV.Text);
+       DataModule1.FDQLineadeVenta.ParamByName('id').AsInteger :=StrToInt(DBELdV.text);
+       DataModule1.FDQLineadeVenta.Active := True;
+end;
+
+end.

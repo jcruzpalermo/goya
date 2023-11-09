@@ -1,0 +1,60 @@
+unit UBuscarEgreso;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ComCtrls, Data.DB,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFBuscarEgreso = class(TForm)
+    Label1: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    DBGEgresos: TDBGrid;
+    BBBuscarEgr: TBitBtn;
+    CBDetalleEnc: TComboBox;
+    CHFiltrar: TCheckBox;
+    procedure BBBuscarEgrClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FBuscarEgreso: TFBuscarEgreso;
+  fec: DATE_SHORTDATE;
+  egr: string;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+procedure TFBuscarEgreso.BBBuscarEgrClick(Sender: TObject);
+begin
+     if CHFiltrar.Checked = True then
+       begin
+         DBGEgresos.DataSource := DataModule1.DSEgresoBuscar;
+         DataModule1.QTegresoBuscar.Active := False;
+         fec := DateTimePicker1.Date;
+         egr := CBDetalleEnc.Text + '%';
+         DataModule1.QTegresoBuscar.ParamByName('egr').AsString := CBDetalleEnc.Text + '%';
+         DataModule1.QTegresoBuscar.ParamByName('fec').AsDate := DateTimePicker1.Date;
+         DataModule1.QTegresoBuscar.Active := True;
+       end
+     else
+       begin
+         DBGEgresos.DataSource := DataModule1.DSEgresoBuscar;
+         DataModule1.QTegresoBuscar.Active := False;
+         fec := DateTimePicker1.Date;
+         egr := '*';
+         DataModule1.QTegresoBuscar.ParamByName('egr').AsString := '*';
+         DataModule1.QTegresoBuscar.ParamByName('fec').AsDate := DateTimePicker1.Date;
+         DataModule1.QTegresoBuscar.Active := True;
+       end;
+end;
+
+end.

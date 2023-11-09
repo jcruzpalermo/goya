@@ -1,0 +1,290 @@
+object FBuscarVenta: TFBuscarVenta
+  Left = 0
+  Top = 0
+  Caption = 'Sistema Goya - Buscar Venta'
+  ClientHeight = 463
+  ClientWidth = 719
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 25
+    Top = 79
+    Width = 86
+    Height = 13
+    Caption = 'Seleccione Fecha:'
+  end
+  object Label2: TLabel
+    Left = 24
+    Top = 130
+    Width = 32
+    Height = 13
+    Caption = 'Venta:'
+  end
+  object Label3: TLabel
+    Left = 24
+    Top = 285
+    Width = 75
+    Height = 13
+    Caption = 'Linea de Venta:'
+  end
+  object Label4: TLabel
+    Left = 177
+    Top = 79
+    Width = 85
+    Height = 13
+    Caption = 'Seleccione Turno:'
+  end
+  object DBGBuscarVenta: TDBGrid
+    Left = 24
+    Top = 149
+    Width = 657
+    Height = 122
+    DataSource = DataModule1.DSVenta
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IdVenta'
+        Width = 40
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PtodeVenta'
+        Width = 40
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Fecha'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Turno'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Descuento'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Total'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FormadePago'
+        Width = 80
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IdCuenta'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IdEncargo'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'EmpleadoEmpresa'
+        Width = 100
+        Visible = True
+      end>
+  end
+  object DateTimePicker1: TDateTimePicker
+    Left = 25
+    Top = 98
+    Width = 129
+    Height = 21
+    Date = 43252.921415243060000000
+    Time = 43252.921415243060000000
+    TabOrder = 1
+  end
+  object BBBuscarIdVenta: TBitBtn
+    Left = 304
+    Top = 16
+    Width = 97
+    Height = 33
+    Caption = '&Buscar'
+    Enabled = False
+    Kind = bkHelp
+    NumGlyphs = 2
+    TabOrder = 2
+    OnClick = BBBuscarIdVentaClick
+  end
+  object CHFiltrar: TCheckBox
+    Left = 576
+    Top = 126
+    Width = 105
+    Height = 17
+    Caption = 'Filtrar por Fecha'
+    TabOrder = 3
+  end
+  object DBGLineadeVenta: TDBGrid
+    Left = 24
+    Top = 304
+    Width = 657
+    Height = 122
+    DataSource = DataModule1.DSLineadeVenta
+    ReadOnly = True
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IdLdV'
+        Width = 30
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IdVenta'
+        Width = 50
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IdProducto'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Descripcion'
+        Width = 220
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Anillado'
+        Width = 40
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PrecioA'
+        Width = 45
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PrecioU'
+        Width = 60
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Cantidad'
+        Width = 40
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Monto'
+        Width = 65
+        Visible = True
+      end>
+  end
+  object RBIdV: TRadioButton
+    Left = 24
+    Top = 24
+    Width = 121
+    Height = 17
+    Caption = 'Buscar por Id Venta'
+    TabOrder = 5
+    OnClick = BCheckClick
+  end
+  object RBFiltrar: TRadioButton
+    Left = 25
+    Top = 56
+    Width = 136
+    Height = 17
+    Caption = 'Filtrar por fecha y turno'
+    TabOrder = 6
+    OnClick = BCheckClick
+  end
+  object CBTurno: TComboBox
+    Left = 177
+    Top = 98
+    Width = 145
+    Height = 23
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Calibri'
+    Font.Style = []
+    ItemIndex = 0
+    ParentFont = False
+    TabOrder = 7
+    Text = 'Ma'#241'ana'
+    Items.Strings = (
+      'Ma'#241'ana'
+      'Tarde')
+  end
+  object EIdVenta: TEdit
+    Left = 161
+    Top = 22
+    Width = 121
+    Height = 21
+    NumbersOnly = True
+    TabOrder = 8
+  end
+  object DBELdV: TDBEdit
+    Left = 592
+    Top = 277
+    Width = 89
+    Height = 21
+    DataField = 'IdVenta'
+    DataSource = DataModule1.DSVenta
+    ReadOnly = True
+    TabOrder = 9
+    Visible = False
+    OnChange = DBELdVChange
+  end
+  object BBFiltrarVentas: TBitBtn
+    Left = 328
+    Top = 93
+    Width = 97
+    Height = 33
+    Caption = '&Filtrar Ventas'
+    Enabled = False
+    Kind = bkHelp
+    NumGlyphs = 2
+    TabOrder = 10
+  end
+  object BCheck: TButton
+    Left = 678
+    Top = 8
+    Width = 33
+    Height = 25
+    Caption = 'BCheck'
+    TabOrder = 11
+    Visible = False
+    OnClick = BCheckClick
+  end
+end

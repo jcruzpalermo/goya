@@ -1,0 +1,600 @@
+object DataModule1: TDataModule1
+  OldCreateOrder = False
+  Height = 565
+  Width = 1015
+  object DbgooyaConnection: TFDConnection
+    Params.Strings = (
+      'Database=dbgoya'
+      'User_Name=root'
+      'Server=127.0.0.1'
+      'DriverID=MySQL')
+    Connected = True
+    LoginPrompt = False
+    Left = 60
+    Top = 51
+  end
+  object FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink
+    VendorLib = 
+      'C:\Users\Windows 10\Documents\Embarcadero\Studio\Projects\Sistem' +
+      'a Goya\conector\libmysql.dll'
+    Left = 56
+    Top = 3
+  end
+  object FDTEgreso: TFDTable
+    Active = True
+    IndexFieldNames = 'IdEgreso'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'dbgoya.tegreso'
+    TableName = 'dbgoya.tegreso'
+    Left = 192
+    Top = 8
+  end
+  object DSEgreso: TDataSource
+    DataSet = FDTEgreso
+    Left = 248
+    Top = 8
+  end
+  object QTegresoBuscar: TFDQuery
+    MasterSource = DSEgreso
+    DetailFields = 'Detalle;FechaEg;IdEgreso;Monto;Turno'
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM dbgoya.tegreso'
+      'WHERE  (FechaEg = :fec AND Detalle LIKE :egr)')
+    Left = 188
+    Top = 61
+    ParamData = <
+      item
+        Name = 'FEC'
+        ParamType = ptInput
+      end
+      item
+        Name = 'EGR'
+        ParamType = ptInput
+      end>
+  end
+  object DSEgresoBuscar: TDataSource
+    DataSet = QTegresoBuscar
+    Left = 246
+    Top = 62
+  end
+  object FDTEmpleado: TFDTable
+    Active = True
+    IndexFieldNames = 'IdEmpleado'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'dbgoya.templeado'
+    TableName = 'dbgoya.templeado'
+    Left = 352
+    Top = 8
+  end
+  object DSEmpleado: TDataSource
+    DataSet = FDTEmpleado
+    Left = 408
+    Top = 8
+  end
+  object FDTFotocopiadora: TFDTable
+    Active = True
+    IndexFieldNames = 'IdFotoc'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'dbgoya.tfotocopiadora'
+    TableName = 'dbgoya.tfotocopiadora'
+    Left = 368
+    Top = 136
+  end
+  object DSFotocopiadora: TDataSource
+    DataSet = FDTFotocopiadora
+    Left = 424
+    Top = 136
+  end
+  object FDTEncargo: TFDTable
+    Active = True
+    IndexFieldNames = 'IdEncargo'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'tencargo'
+    TableName = 'tencargo'
+    Left = 544
+    Top = 8
+  end
+  object DSEncargo: TDataSource
+    DataSet = FDTEncargo
+    Left = 608
+    Top = 8
+  end
+  object QEmpleadosActivos: TFDQuery
+    Active = True
+    CachedUpdates = True
+    MasterSource = DSEmpleado
+    DetailFields = 'NombreEmp'
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'Select IdEmpleado, NombreEmp from templeado '
+      'where EstadoEmp = '#39'Activo'#39)
+    Left = 352
+    Top = 56
+  end
+  object DSEmpleadosActivos: TDataSource
+    DataSet = QEmpleadosActivos
+    Left = 416
+    Top = 56
+  end
+  object FDTCuenta: TFDTable
+    Active = True
+    IndexFieldNames = 'IdCuenta'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'dbgoya.tcuenta'
+    TableName = 'dbgoya.tcuenta'
+    Left = 32
+    Top = 160
+  end
+  object DSCuenta: TDataSource
+    DataSet = FDTCuenta
+    Left = 88
+    Top = 160
+  end
+  object FDTProducto: TFDTable
+    Active = True
+    IndexFieldNames = 'IdProducto'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'dbgoya.tproducto'
+    TableName = 'dbgoya.tproducto'
+    Left = 216
+    Top = 136
+  end
+  object DSProducto: TDataSource
+    DataSet = FDTProducto
+    Left = 280
+    Top = 136
+  end
+  object FDTVenta: TFDTable
+    Active = True
+    IndexFieldNames = 'IdVenta'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'dbgoya.tventa'
+    TableName = 'dbgoya.tventa'
+    Left = 216
+    Top = 253
+  end
+  object DSVenta: TDataSource
+    DataSet = FDTVenta
+    Left = 272
+    Top = 253
+  end
+  object FDTLineadeVenta: TFDTable
+    Active = True
+    IndexFieldNames = 'IdLdV'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'tlineadeventa'
+    TableName = 'tlineadeventa'
+    Left = 216
+    Top = 408
+  end
+  object DSLineadeVta: TDataSource
+    DataSet = FDTLineadeVenta
+    Left = 280
+    Top = 408
+  end
+  object FDQEncargosSinEntregar: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tencargo'
+      
+        'WHERE (estado = '#39'pendiente de impresi'#243'n'#39' OR estado = '#39'impreso'#39' O' +
+        'R estado = '#39'caduco'#39') AND IdEncargo = :enc')
+    Left = 544
+    Top = 56
+    ParamData = <
+      item
+        Name = 'ENC'
+        ParamType = ptInput
+      end>
+  end
+  object DSEncargosSinEntregar: TDataSource
+    DataSet = FDQEncargosSinEntregar
+    Left = 608
+    Top = 56
+  end
+  object FDQEncargosSinEntregar2: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tencargo'
+      
+        'WHERE (estado = '#39'pendiente de impresi'#243'n'#39' OR estado = '#39'impreso'#39' O' +
+        'R estado = '#39'caduco'#39') AND  Nombre LIKE :enc')
+    Left = 544
+    Top = 112
+    ParamData = <
+      item
+        Name = 'ENC'
+        ParamType = ptInput
+      end>
+  end
+  object DSEncargosSinEntregar2: TDataSource
+    DataSet = FDQEncargosSinEntregar2
+    Left = 608
+    Top = 112
+  end
+  object FDQCuentasActivas: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tcuenta'
+      
+        'WHERE (Estado = '#39'Habilitada'#39' OR Estado = '#39'Con Deuda'#39') AND Tipo =' +
+        ' '#39'Persona'#39)
+    Left = 32
+    Top = 216
+  end
+  object DSCuentasActivas: TDataSource
+    DataSet = FDQCuentasActivas
+    Left = 88
+    Top = 216
+  end
+  object FDQBuscarCuenta: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tcuenta'
+      'WHERE Nombre  LIKE :cue')
+    Left = 32
+    Top = 312
+    ParamData = <
+      item
+        Name = 'CUE'
+        ParamType = ptInput
+      end>
+  end
+  object DSBuscarCuenta: TDataSource
+    DataSet = FDQBuscarCuenta
+    Left = 88
+    Top = 312
+  end
+  object FDQListarProductos: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tproducto'
+      'WHERE Bandera = '#39'1'#39)
+    Left = 216
+    Top = 192
+  end
+  object DSListarProductos: TDataSource
+    DataSet = FDQListarProductos
+    Left = 280
+    Top = 192
+  end
+  object FDQListarCuentas: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tcuenta'
+      'WHERE Saldo < Limite')
+    Left = 32
+    Top = 368
+  end
+  object DSListarCuentas: TDataSource
+    DataSet = FDQListarCuentas
+    Left = 88
+    Top = 368
+  end
+  object FDQFiltrarVenta: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tventa'
+      'WHERE (Fecha = :fec AND Turno = :tur)')
+    Left = 216
+    Top = 309
+    ParamData = <
+      item
+        Name = 'FEC'
+        ParamType = ptInput
+      end
+      item
+        Name = 'TUR'
+        ParamType = ptInput
+      end>
+  end
+  object DSFiltrarVenta: TDataSource
+    DataSet = FDQFiltrarVenta
+    Left = 272
+    Top = 309
+  end
+  object FDQLineadeVenta: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tlineadeventa'
+      'WHERE IdVenta  LIKE :id')
+    Left = 216
+    Top = 464
+    ParamData = <
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object DSLineadeVenta: TDataSource
+    DataSet = FDQLineadeVenta
+    Left = 272
+    Top = 464
+  end
+  object FDTLogica: TFDTable
+    Active = True
+    IndexFieldNames = 'IdLog'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'tlogica'
+    TableName = 'tlogica'
+    Left = 552
+    Top = 232
+  end
+  object DSLogica: TDataSource
+    DataSet = FDTLogica
+    Left = 608
+    Top = 232
+  end
+  object FDQEfectivo: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tlogica'
+      'WHERE IdLog = '#39'1'#39)
+    Left = 552
+    Top = 328
+  end
+  object DSEfectivo: TDataSource
+    DataSet = FDQEfectivo
+    Left = 608
+    Top = 328
+  end
+  object FDQTarjetas: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tlogica'
+      'WHERE IdLog = '#39'2'#39)
+    Left = 552
+    Top = 384
+  end
+  object DSTarjetas: TDataSource
+    DataSet = FDQTarjetas
+    Left = 608
+    Top = 384
+  end
+  object FDQCuentasActivasEmpresas: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tcuenta'
+      
+        'WHERE (Estado = '#39'Habilitada'#39' OR Estado = '#39'Con Deuda'#39') AND Tipo =' +
+        ' '#39'Empresa'#39
+      '')
+    Left = 32
+    Top = 264
+  end
+  object DSCuentasActivasEmpresas: TDataSource
+    DataSet = FDQCuentasActivasEmpresas
+    Left = 88
+    Top = 264
+  end
+  object FDQResmas: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tlogica'
+      'WHERE IdLog = '#39'3'#39)
+    Left = 672
+    Top = 232
+  end
+  object DSResmas: TDataSource
+    DataSet = FDQResmas
+    Left = 728
+    Top = 232
+  end
+  object FDQToner: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tlogica'
+      'WHERE IdLog = '#39'4'#39)
+    Left = 672
+    Top = 280
+  end
+  object DSToner: TDataSource
+    DataSet = FDQToner
+    Left = 728
+    Top = 280
+  end
+  object FDQFotocopActiva: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tfotocopiadora'
+      '')
+    Left = 368
+    Top = 192
+  end
+  object DSFotocopActiva: TDataSource
+    DataSet = FDQFotocopActiva
+    Left = 424
+    Top = 192
+  end
+  object FDTCaja: TFDTable
+    Active = True
+    IndexFieldNames = 'IdCaja'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'tcaja'
+    TableName = 'tcaja'
+    Left = 384
+    Top = 280
+  end
+  object DSCaja: TDataSource
+    DataSet = FDTCaja
+    Left = 440
+    Top = 280
+  end
+  object FDQEfInicial: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tlogica'
+      'WHERE IdLog = '#39'5'#39)
+    Left = 672
+    Top = 330
+  end
+  object DSEfInicial: TDataSource
+    DataSet = FDQEfInicial
+    Left = 728
+    Top = 330
+  end
+  object FDTDiaFotoCaja: TFDTable
+    Active = True
+    IndexFieldNames = 'IdDiaFotoc'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'dbgoya.tdiafotoc'
+    TableName = 'dbgoya.tdiafotoc'
+    Left = 384
+    Top = 336
+  end
+  object DSFotoCaja: TDataSource
+    DataSet = FDTDiaFotoCaja
+    Left = 440
+    Top = 336
+  end
+  object FDTDiaEmp: TFDTable
+    Active = True
+    IndexFieldNames = 'IdDiaEmp'
+    Connection = DbgooyaConnection
+    UpdateOptions.UpdateTableName = 'tdiaemp'
+    TableName = 'tdiaemp'
+    Left = 384
+    Top = 400
+  end
+  object DSDiaEmp: TDataSource
+    DataSet = FDTDiaEmp
+    Left = 440
+    Top = 400
+  end
+  object FDQEmpleadodeldia: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tdiaemp'
+      'WHERE IdCaja = :emp')
+    Left = 384
+    Top = 448
+    ParamData = <
+      item
+        Name = 'EMP'
+        ParamType = ptInput
+      end>
+  end
+  object DSQEmpleadodeldia: TDataSource
+    DataSet = FDQEmpleadodeldia
+    Left = 440
+    Top = 448
+  end
+  object FDQHabilitar: TFDQuery
+    Active = True
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tlogica'
+      'WHERE IdLog = '#39'6'#39)
+    Left = 552
+    Top = 280
+  end
+  object DSHabilitar: TDataSource
+    DataSet = FDQHabilitar
+    Left = 608
+    Top = 280
+  end
+  object FDQListarEncargos: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tencargo'
+      'WHERE estado = :enc')
+    Left = 704
+    Top = 8
+    ParamData = <
+      item
+        Name = 'ENC'
+        ParamType = ptInput
+      end>
+  end
+  object DSListarEncargos: TDataSource
+    DataSet = FDQListarEncargos
+    Left = 768
+    Top = 8
+  end
+  object FDQBuscarEncID: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tencargo'
+      'WHERE IdEncargo = :enc')
+    Left = 704
+    Top = 56
+    ParamData = <
+      item
+        Name = 'ENC'
+        ParamType = ptInput
+      end>
+  end
+  object DSBuscarEncID: TDataSource
+    DataSet = FDQBuscarEncID
+    Left = 768
+    Top = 56
+  end
+  object FDQBuscarEncNom: TFDQuery
+    CachedUpdates = True
+    Connection = DbgooyaConnection
+    SQL.Strings = (
+      'SELECT * '
+      'FROM tencargo'
+      'WHERE Nombre LIKE :enc')
+    Left = 704
+    Top = 112
+    ParamData = <
+      item
+        Name = 'ENC'
+        ParamType = ptInput
+      end>
+  end
+  object DSBuscarEncNom: TDataSource
+    DataSet = FDQBuscarEncNom
+    Left = 768
+    Top = 112
+  end
+end

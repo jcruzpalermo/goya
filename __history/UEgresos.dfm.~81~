@@ -1,0 +1,420 @@
+object FEgreso: TFEgreso
+  Left = 0
+  Top = 0
+  Caption = 'Sistema Goya - Egresos'
+  ClientHeight = 450
+  ClientWidth = 624
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnClose = FormClose
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 24
+    Top = 124
+    Width = 87
+    Height = 13
+    Caption = 'Ingrese el detalle:'
+    Visible = False
+  end
+  object Label2: TLabel
+    Left = 368
+    Top = 67
+    Width = 85
+    Height = 13
+    Caption = 'Ingrese el monto:'
+  end
+  object Label3: TLabel
+    Left = 24
+    Top = 67
+    Width = 153
+    Height = 13
+    Caption = 'Seleccione el motivo del Egreso:'
+  end
+  object Label4: TLabel
+    Left = 169
+    Top = 343
+    Width = 67
+    Height = 13
+    Caption = 'Monto Actual:'
+    Visible = False
+  end
+  object Label5: TLabel
+    Left = 296
+    Top = 343
+    Width = 70
+    Height = 13
+    Caption = 'Detalle Actual:'
+    Visible = False
+  end
+  object Label6: TLabel
+    Left = 169
+    Top = 389
+    Width = 118
+    Height = 13
+    Caption = 'Ingrese el nuevo Monto:'
+    Visible = False
+  end
+  object Label7: TLabel
+    Left = 296
+    Top = 389
+    Width = 97
+    Height = 13
+    Caption = 'Modifique el Detalle:'
+    Visible = False
+  end
+  object BBSalir: TBitBtn
+    Left = 522
+    Top = 299
+    Width = 81
+    Height = 33
+    Caption = '&Volver'
+    Kind = bkIgnore
+    NumGlyphs = 2
+    TabOrder = 4
+    OnClick = BBSalirClick
+  end
+  object DBGEgresos: TDBGrid
+    Left = 24
+    Top = 170
+    Width = 579
+    Height = 105
+    DataSource = DataModule1.DSEgreso
+    ReadOnly = True
+    TabOrder = 5
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IdEgreso'
+        Width = 54
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FechaEg'
+        Width = 63
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Turno'
+        Width = 66
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Detalle'
+        Width = 250
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Monto'
+        Visible = True
+      end>
+  end
+  object EDetalleEgr: TEdit
+    Left = 24
+    Top = 143
+    Width = 465
+    Height = 21
+    TabOrder = 1
+    Visible = False
+  end
+  object EMontoEgr: TEdit
+    Left = 368
+    Top = 86
+    Width = 121
+    Height = 21
+    Hint = 'ingrese un numero entero'
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 2
+    OnKeyPress = EMontoEgrKeyPress
+  end
+  object BBAltaEgr: TBitBtn
+    Left = 522
+    Top = 104
+    Width = 81
+    Height = 33
+    Caption = 'Agregar'
+    Glyph.Data = {
+      DE010000424DDE01000000000000760000002800000024000000120000000100
+      0400000000006801000000000000000000001000000000000000000000000000
+      80000080000000808000800000008000800080800000C0C0C000808080000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+      3333333333333333333333330000333333333333333333333333F33333333333
+      00003333344333333333333333388F3333333333000033334224333333333333
+      338338F3333333330000333422224333333333333833338F3333333300003342
+      222224333333333383333338F3333333000034222A22224333333338F338F333
+      8F33333300003222A3A2224333333338F3838F338F33333300003A2A333A2224
+      33333338F83338F338F33333000033A33333A222433333338333338F338F3333
+      0000333333333A222433333333333338F338F33300003333333333A222433333
+      333333338F338F33000033333333333A222433333333333338F338F300003333
+      33333333A222433333333333338F338F00003333333333333A22433333333333
+      3338F38F000033333333333333A223333333333333338F830000333333333333
+      333A333333333333333338330000333333333333333333333333333333333333
+      0000}
+    NumGlyphs = 2
+    TabOrder = 3
+    OnClick = BBAltaEgrClick
+  end
+  object CBDetalleEnc: TComboBox
+    Left = 24
+    Top = 86
+    Width = 145
+    Height = 21
+    Style = csDropDownList
+    DropDownCount = 5
+    TabOrder = 0
+    TextHint = 'Click para desplegar'
+    OnChange = CBDetalleEncChange
+    Items.Strings = (
+      'Caja Central'
+      'Compra de Mercaderia'
+      'Pago Empleados'
+      'Pago Proveedor'
+      'Otro')
+  end
+  object BBBajaEgr: TBitBtn
+    Left = 169
+    Top = 299
+    Width = 106
+    Height = 33
+    Cancel = True
+    Caption = 'Eliminar Registro'
+    Glyph.Data = {
+      DE010000424DDE01000000000000760000002800000024000000120000000100
+      0400000000006801000000000000000000001000000000000000000000000000
+      80000080000000808000800000008000800080800000C0C0C000808080000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+      333333333333333333333333000033338833333333333333333F333333333333
+      0000333911833333983333333388F333333F3333000033391118333911833333
+      38F38F333F88F33300003339111183911118333338F338F3F8338F3300003333
+      911118111118333338F3338F833338F3000033333911111111833333338F3338
+      3333F8330000333333911111183333333338F333333F83330000333333311111
+      8333333333338F3333383333000033333339111183333333333338F333833333
+      00003333339111118333333333333833338F3333000033333911181118333333
+      33338333338F333300003333911183911183333333383338F338F33300003333
+      9118333911183333338F33838F338F33000033333913333391113333338FF833
+      38F338F300003333333333333919333333388333338FFF830000333333333333
+      3333333333333333333888330000333333333333333333333333333333333333
+      0000}
+    NumGlyphs = 2
+    TabOrder = 6
+    Visible = False
+    OnClick = BBBajaEgrClick
+  end
+  object BBBuscarEgr: TBitBtn
+    Left = 24
+    Top = 299
+    Width = 100
+    Height = 33
+    Caption = '&Listar Egresos'
+    Kind = bkHelp
+    NumGlyphs = 2
+    TabOrder = 7
+    OnClick = BBBuscarEgrClick
+  end
+  object BBModEgr: TBitBtn
+    Left = 296
+    Top = 299
+    Width = 81
+    Height = 33
+    Caption = '&Modificar'
+    Glyph.Data = {
+      DE010000424DDE01000000000000760000002800000024000000120000000100
+      0400000000006801000000000000000000001000000000000000000000000000
+      80000080000000808000800000008000800080800000C0C0C000808080000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333444444
+      33333333333F8888883F33330000324334222222443333388F3833333388F333
+      000032244222222222433338F8833FFFFF338F3300003222222AAAAA22243338
+      F333F88888F338F30000322222A33333A2224338F33F8333338F338F00003222
+      223333333A224338F33833333338F38F00003222222333333A444338FFFF8F33
+      3338888300003AAAAAAA33333333333888888833333333330000333333333333
+      333333333333333333FFFFFF000033333333333344444433FFFF333333888888
+      00003A444333333A22222438888F333338F3333800003A2243333333A2222438
+      F38F333333833338000033A224333334422224338338FFFFF8833338000033A2
+      22444442222224338F3388888333FF380000333A2222222222AA243338FF3333
+      33FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA
+      3333333333338888883333330000333333333333333333333333333333333333
+      0000}
+    NumGlyphs = 2
+    TabOrder = 8
+    Visible = False
+    OnClick = BBModEgrClick
+  end
+  object DBEMonto: TDBEdit
+    Left = 169
+    Top = 362
+    Width = 121
+    Height = 21
+    DataField = 'Monto'
+    DataSource = DataModule1.DSEgreso
+    ReadOnly = True
+    TabOrder = 9
+    Visible = False
+  end
+  object DBEDetalle: TDBEdit
+    Left = 296
+    Top = 362
+    Width = 307
+    Height = 21
+    DataField = 'Detalle'
+    DataSource = DataModule1.DSEgreso
+    ReadOnly = True
+    TabOrder = 10
+    Visible = False
+  end
+  object EModifMonto: TEdit
+    Left = 169
+    Top = 408
+    Width = 121
+    Height = 21
+    NumbersOnly = True
+    TabOrder = 11
+    Visible = False
+  end
+  object EModifDetalle: TEdit
+    Left = 296
+    Top = 408
+    Width = 307
+    Height = 21
+    TabOrder = 12
+    Visible = False
+  end
+  object Panel1: TPanel
+    Left = 24
+    Top = 339
+    Width = 123
+    Height = 102
+    TabOrder = 13
+    Visible = False
+    object Label8: TLabel
+      Left = 22
+      Top = 19
+      Width = 14
+      Height = 13
+      Caption = 'Id:'
+    end
+    object Label9: TLabel
+      Left = 9
+      Top = 42
+      Width = 33
+      Height = 13
+      Caption = 'Fecha:'
+    end
+    object Label10: TLabel
+      Left = 8
+      Top = 69
+      Width = 32
+      Height = 13
+      Caption = 'Turno:'
+    end
+    object Label11: TLabel
+      Left = 9
+      Top = 0
+      Width = 105
+      Height = 13
+      Caption = 'Registro Seleccionado'
+    end
+  end
+  object DBEId: TDBEdit
+    Left = 71
+    Top = 354
+    Width = 61
+    Height = 21
+    DataField = 'IdEgreso'
+    DataSource = DataModule1.DSEgreso
+    ReadOnly = True
+    TabOrder = 14
+    Visible = False
+  end
+  object DBEFecha: TDBEdit
+    Left = 70
+    Top = 381
+    Width = 61
+    Height = 21
+    DataField = 'FechaEg'
+    DataSource = DataModule1.DSEgreso
+    ReadOnly = True
+    TabOrder = 15
+    Visible = False
+  end
+  object DBETurno: TDBEdit
+    Left = 70
+    Top = 408
+    Width = 62
+    Height = 21
+    DataField = 'Turno'
+    DataSource = DataModule1.DSEgreso
+    ReadOnly = True
+    TabOrder = 16
+    Visible = False
+  end
+  object BBHabilitar: TBitBtn
+    Left = 394
+    Top = 299
+    Width = 113
+    Height = 33
+    Caption = '&Habilitar Opciones'
+    Glyph.Data = {
+      DE010000424DDE01000000000000760000002800000024000000120000000100
+      0400000000006801000000000000000000001000000000000000000000000000
+      80000080000000808000800000008000800080800000C0C0C000808080000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333444444
+      33333333333F8888883F33330000324334222222443333388F3833333388F333
+      000032244222222222433338F8833FFFFF338F3300003222222AAAAA22243338
+      F333F88888F338F30000322222A33333A2224338F33F8333338F338F00003222
+      223333333A224338F33833333338F38F00003222222333333A444338FFFF8F33
+      3338888300003AAAAAAA33333333333888888833333333330000333333333333
+      333333333333333333FFFFFF000033333333333344444433FFFF333333888888
+      00003A444333333A22222438888F333338F3333800003A2243333333A2222438
+      F38F333333833338000033A224333334422224338338FFFFF8833338000033A2
+      22444442222224338F3388888333FF380000333A2222222222AA243338FF3333
+      33FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA
+      3333333333338888883333330000333333333333333333333333333333333333
+      0000}
+    NumGlyphs = 2
+    TabOrder = 17
+    OnClick = BBHabilitarClick
+  end
+  object BBActualizar: TBitBtn
+    Left = 130
+    Top = 300
+    Width = 33
+    Height = 33
+    Caption = '&'
+    Glyph.Data = {
+      DE010000424DDE01000000000000760000002800000024000000120000000100
+      0400000000006801000000000000000000001000000000000000000000000000
+      80000080000000808000800000008000800080800000C0C0C000808080000000
+      FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333444444
+      33333333333F8888883F33330000324334222222443333388F3833333388F333
+      000032244222222222433338F8833FFFFF338F3300003222222AAAAA22243338
+      F333F88888F338F30000322222A33333A2224338F33F8333338F338F00003222
+      223333333A224338F33833333338F38F00003222222333333A444338FFFF8F33
+      3338888300003AAAAAAA33333333333888888833333333330000333333333333
+      333333333333333333FFFFFF000033333333333344444433FFFF333333888888
+      00003A444333333A22222438888F333338F3333800003A2243333333A2222438
+      F38F333333833338000033A224333334422224338338FFFFF8833338000033A2
+      22444442222224338F3388888333FF380000333A2222222222AA243338FF3333
+      33FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA
+      3333333333338888883333330000333333333333333333333333333333333333
+      0000}
+    NumGlyphs = 2
+    TabOrder = 18
+    Visible = False
+    OnClick = BBActualizarClick
+  end
+end

@@ -1,0 +1,112 @@
+object FInformeDia: TFInformeDia
+  Left = 0
+  Top = 0
+  Caption = 'Sistema Goya - Informe del Turno'
+  ClientHeight = 373
+  ClientWidth = 691
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 32
+    Top = 8
+    Width = 185
+    Height = 13
+    Caption = 'Seleccione la fecha y turno del informe'
+  end
+  object Label2: TLabel
+    Left = 249
+    Top = 8
+    Width = 34
+    Height = 15
+    Caption = 'Turno:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Calibri'
+    Font.Style = []
+    ParentFont = False
+  end
+  object VPEngine1: TVPEngine
+    Left = 32
+    Top = 88
+    Width = 289
+    Height = 73
+    BorderStyle = bsNone
+    TabOrder = 0
+    Visible = False
+    Caption = 'VPE Preview'
+    ExternalWindow = True
+    PageOrientation = VORIENT_PORTRAIT
+    PageFormat = VPAPER_A4
+    PageWidth = 21.000000000000000000
+    PageHeight = 29.700000000000000000
+    Rulers = True
+    RulersMeasure = cm
+    GridMode = InForeground
+    GridVisible = False
+    EnableHelpRouting = False
+    StatusBar = True
+    ToolBar = True
+    tbAbout = True
+    tbClose = True
+    tbGrid = False
+    tbHelp = True
+    tbNavigate = True
+    tbOpen = True
+    tbSave = True
+    tbPrint = True
+    EnablePrintSetupDialog = True
+    tbScale = True
+    PaperView = True
+    DocFileReadOnly = False
+    PageScroller = True
+    tbMail = True
+    StatusSegment = True
+    PageScrollerTracking = True
+    PreviewCtrl = JumpTop
+  end
+  object DateTimePicker1: TDateTimePicker
+    Left = 32
+    Top = 32
+    Width = 186
+    Height = 21
+    Date = 43366.575835949070000000
+    Time = 43366.575835949070000000
+    TabOrder = 1
+  end
+  object CBTurno: TComboBox
+    Left = 249
+    Top = 30
+    Width = 123
+    Height = 23
+    Enabled = False
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Calibri'
+    Font.Style = []
+    ItemIndex = 0
+    ParentFont = False
+    TabOrder = 2
+    Text = 'Ma'#241'ana'
+    Items.Strings = (
+      'Ma'#241'ana'
+      'Tarde')
+  end
+  object Button1: TButton
+    Left = 400
+    Top = 176
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 3
+    OnClick = Button1Click
+  end
+end

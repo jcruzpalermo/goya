@@ -1,0 +1,101 @@
+unit UDataModule;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Phys.MySQLDef, FireDAC.UI.Intf,
+  FireDAC.VCLUI.Wait, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Stan.Async, FireDAC.Phys, FireDAC.Phys.MySQL, Data.DB,
+  FireDAC.Comp.Client, FireDAC.Comp.UI, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Phys.MSAccDef,
+  FireDAC.Phys.ODBCBase, FireDAC.Phys.MSAcc;
+
+type
+  TDataModule1 = class(TDataModule)
+    DbgooyaConnection: TFDConnection;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    FDTEgreso: TFDTable;
+    DSEgreso: TDataSource;
+    QTegresoBuscar: TFDQuery;
+    DSEgresoBuscar: TDataSource;
+    FDTEmpleado: TFDTable;
+    DSEmpleado: TDataSource;
+    FDTFotocopiadora: TFDTable;
+    DSFotocopiadora: TDataSource;
+    FDTEncargo: TFDTable;
+    DSEncargo: TDataSource;
+    QEmpleadosActivos: TFDQuery;
+    DSEmpleadosActivos: TDataSource;
+    FDTCuenta: TFDTable;
+    DSCuenta: TDataSource;
+    FDTProducto: TFDTable;
+    DSProducto: TDataSource;
+    FDTVenta: TFDTable;
+    DSVenta: TDataSource;
+    FDTLineadeVenta: TFDTable;
+    DSLineadeVta: TDataSource;
+    FDQEncargosSinEntregar: TFDQuery;
+    DSEncargosSinEntregar: TDataSource;
+    FDQEncargosSinEntregar2: TFDQuery;
+    DSEncargosSinEntregar2: TDataSource;
+    FDQCuentasActivas: TFDQuery;
+    DSCuentasActivas: TDataSource;
+    FDQBuscarCuenta: TFDQuery;
+    DSBuscarCuenta: TDataSource;
+    FDQListarProductos: TFDQuery;
+    DSListarProductos: TDataSource;
+    FDQListarCuentas: TFDQuery;
+    DSListarCuentas: TDataSource;
+    FDQFiltrarVenta: TFDQuery;
+    DSFiltrarVenta: TDataSource;
+    FDQLineadeVenta: TFDQuery;
+    DSLineadeVenta: TDataSource;
+    FDTLogica: TFDTable;
+    DSLogica: TDataSource;
+    FDQEfectivo: TFDQuery;
+    DSEfectivo: TDataSource;
+    FDQTarjetas: TFDQuery;
+    DSTarjetas: TDataSource;
+    FDQCuentasActivasEmpresas: TFDQuery;
+    DSCuentasActivasEmpresas: TDataSource;
+    FDQResmas: TFDQuery;
+    DSResmas: TDataSource;
+    FDQToner: TFDQuery;
+    DSToner: TDataSource;
+    FDQFotocopActiva: TFDQuery;
+    DSFotocopActiva: TDataSource;
+    FDTCaja: TFDTable;
+    DSCaja: TDataSource;
+    FDQEfInicial: TFDQuery;
+    DSEfInicial: TDataSource;
+    FDTDiaFotoCaja: TFDTable;
+    DSFotoCaja: TDataSource;
+    FDTDiaEmp: TFDTable;
+    DSDiaEmp: TDataSource;
+    FDQEmpleadodeldia: TFDQuery;
+    DSQEmpleadodeldia: TDataSource;
+    FDQHabilitar: TFDQuery;
+    DSHabilitar: TDataSource;
+    FDQEncargosPendientes: TFDQuery;
+    DSEncargosPendientes: TDataSource;
+    FDQuery1: TFDQuery;
+    DataSource1: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  DataModule1: TDataModule1;
+  enc: string;
+  emp: Integer;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+end.

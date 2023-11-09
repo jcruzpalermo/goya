@@ -1,0 +1,29 @@
+unit UListarCuentas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFListarCuentas = class(TForm)
+    DBGCuentas: TDBGrid;
+    BBVolver: TBitBtn;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FListarCuentas: TFListarCuentas;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+end.

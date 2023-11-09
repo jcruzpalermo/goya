@@ -1,0 +1,89 @@
+unit UCerrarTurno;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.DBCtrls,
+  Data.DB, Vcl.Mask, Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TFCerrarTurno = class(TForm)
+    BBVolver: TBitBtn;
+    DBGFotocActivas: TDBGrid;
+    DBEIdFotoc: TDBEdit;
+    DBEUltCont: TDBEdit;
+    Label1: TLabel;
+    LEContadorFinal: TLabeledEdit;
+    BBAgregar: TBitBtn;
+    DBEIdUltCaja: TDBEdit;
+    DBEMaquina: TDBEdit;
+    Label2: TLabel;
+    SpeedButton1: TSpeedButton;
+    procedure BBVolverClick(Sender: TObject);
+    procedure BBAgregarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FCerrarTurno: TFCerrarTurno;
+  aux: Integer;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+procedure TFCerrarTurno.BBAgregarClick(Sender: TObject);
+begin
+   if (StrToInt(DBEIdFotoc.Text) = aux) then
+     begin
+        BBAgregar.Enabled := False;
+     end
+   else
+     begin
+       {with DataModule1.FDTDiaFotoCaja do
+               begin
+                 Open;
+                 Append;
+                 FieldByName('IdCaja').AsInteger := StrToInt(DBEIdUltCaja.Text);
+                 FieldByName('IdFotoc').AsInteger := StrToInt(DBEIdFotoc.Text);
+                 FieldByName('ContadorIn').AsInteger := StrToInt(DBEUltCont.Text);
+                 FieldByName('ContadorFi').AsInteger := StrToInt(LEContadorFinal.Text);
+                 Post;//realizar alta
+               end; }
+       aux := StrToInt(DBEIdFotoc.Text);
+       DataModule1.FDQFotocopActiva.Next;
+       LEContadorFinal.Text := '';
+       if (StrToInt(DBEIdFotoc.Text) = aux) then
+         begin
+           BBAgregar.Enabled := False;
+         end;
+     end;
+end;
+
+procedure TFCerrarTurno.BBVolverClick(Sender: TObject);
+begin
+  FCerrarTurno.Close;
+end;
+
+procedure TFCerrarTurno.FormCreate(Sender: TObject);
+begin
+  aux := 0;
+end;
+
+procedure TFCerrarTurno.SpeedButton1Click(Sender: TObject);
+begin
+DataModule1.FDQFotocopActiva.First;
+BBAgregar.Enabled := True;
+aux := 0;
+
+end;
+
+end.

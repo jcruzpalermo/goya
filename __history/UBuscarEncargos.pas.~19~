@@ -1,0 +1,81 @@
+unit UBuscarEncargos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, FireDAC.Stan.Param, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Mask, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFBuscarEncargos = class(TForm)
+    DBGEncargo: TDBGrid;
+    DBIDEnc: TDBEdit;
+    RBIdEncargo: TRadioButton;
+    RBNombre: TRadioButton;
+    EEncargo: TEdit;
+    BBBuscarEncargo: TBitBtn;
+    BBListar: TBitBtn;
+    CBEstadoEnc: TComboBox;
+    BBModificar: TBitBtn;
+    procedure BBBuscarEncargoClick(Sender: TObject);
+    procedure BBListarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FBuscarEncargos: TFBuscarEncargos;
+  enc: String;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+procedure TFBuscarEncargos.BBBuscarEncargoClick(Sender: TObject);
+begin
+ if EEncargo.Text = '' then
+   begin
+     ShowMessage('Por favor ingrese Nro de encargo o el nombre del cliente');
+   end
+ else
+   begin
+     if (RBIdEncargo.Checked = True) then
+       begin
+         DBGEncargo.DataSource := DataModule1.DSEncargosSinEntregar;
+         DataModule1.FDQEncargosSinEntregar.Active := False;
+         enc := EEncargo.Text;
+         DataModule1.FDQEncargosSinEntregar.ParamByName('enc').AsString := EEncargo.text;
+         DataModule1.FDQEncargosSinEntregar.Active := True;
+         DBIDEnc.DataSource := DataModule1.DSEncargosSinEntregar;
+       end;
+     if (RBNombre.Checked = True) then
+       begin
+         DBGEncargo.DataSource := DataModule1.DSEncargosSinEntregar2;
+         DataModule1.FDQEncargosSinEntregar2.Active := False;
+         enc :=  EEncargo.Text+  '%';
+         DataModule1.FDQEncargosSinEntregar2.ParamByName('enc').AsString := EEncargo.text +  '%' ;
+         DataModule1.FDQEncargosSinEntregar2.Active := True;
+         DBIDEnc.DataSource := DataModule1.DSEncargosSinEntregar2;
+       end;
+   end;
+
+end;
+
+procedure TFBuscarEncargos.BBListarClick(Sender: TObject);
+begin
+
+  DataModule1.FDQListarEncargos.Active := False;
+  enc := CBEstadoEnc.Text;
+  DataModule1.FDQListarEncargos.ParamByName('enc').AsString := CBEstadoEnc.Text;
+  DataModule1.FDQListarEncargos.Active := True;
+  DBGEncargo.DataSource := DataModule1.DSListarEncargos;
+  DBIDEnc.DataSource :=  DataModule1.DSListarEncargos;
+
+end;
+
+end.

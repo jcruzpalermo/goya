@@ -1,0 +1,55 @@
+object FInformeDia: TFInformeDia
+  Left = 0
+  Top = 0
+  Caption = 'Sistema Goya - Informe del Turno'
+  ClientHeight = 484
+  ClientWidth = 691
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object VPEngine1: TVPEngine
+    Left = 602
+    Top = 8
+    Width = 81
+    Height = 73
+    BorderStyle = bsNone
+    TabOrder = 0
+    Visible = False
+    Caption = 'VPE Preview'
+    ExternalWindow = True
+    PageOrientation = VORIENT_PORTRAIT
+    PageFormat = VPAPER_A4
+    PageWidth = 21.000000000000000000
+    PageHeight = 29.700000000000000000
+    Rulers = True
+    RulersMeasure = cm
+    GridMode = InForeground
+    GridVisible = False
+    EnableHelpRouting = False
+    StatusBar = True
+    ToolBar = True
+    tbAbout = True
+    tbClose = True
+    tbGrid = False
+    tbHelp = True
+    tbNavigate = True
+    tbOpen = True
+    tbSave = True
+    tbPrint = True
+    EnablePrintSetupDialog = True
+    tbScale = True
+    PaperView = True
+    DocFileReadOnly = False
+    PageScroller = True
+    tbMail = True
+    StatusSegment = True
+    PageScrollerTracking = True
+    PreviewCtrl = JumpTop
+  end
+end

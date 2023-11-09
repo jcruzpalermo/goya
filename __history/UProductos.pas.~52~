@@ -1,0 +1,250 @@
+unit UProductos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.UITypes, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Buttons, Vcl.Grids, Vcl.DBGrids;
+
+type
+  TFProducto = class(TForm)
+    DBGProducto: TDBGrid;
+    BBAgregar: TBitBtn;
+    BBEliminar: TBitBtn;
+    BBModificar: TBitBtn;
+    BBBuscar: TBitBtn;
+    BBVolver: TBitBtn;
+    LEDescripcion: TLabeledEdit;
+    LEStock: TLabeledEdit;
+    LEPrecioU: TLabeledEdit;
+    LEIdProducto: TLabeledEdit;
+    LECantMin: TLabeledEdit;
+    CHLogico: TCheckBox;
+    BBListarProd: TBitBtn;
+    SBResma: TSpeedButton;
+    SBToner: TSpeedButton;
+    procedure BBVolverClick(Sender: TObject);
+    procedure BBEliminarClick(Sender: TObject);
+    procedure DBGProductoCellClick(Column: TColumn);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BBAgregarClick(Sender: TObject);
+    procedure BBModificarClick(Sender: TObject);
+    procedure LEPrecioUKeyPress(Sender: TObject; var Key: Char);
+    procedure BBBuscarClick(Sender: TObject);
+    procedure BBListarProdClick(Sender: TObject);
+    procedure SBResmaClick(Sender: TObject);
+    procedure SBTonerClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FProducto: TFProducto;
+  buttonSelected: Integer;
+  B: Boolean;
+  log: Boolean;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule, UListarProductos, UPrincipal;
+
+procedure TFProducto.BBAgregarClick(Sender: TObject);
+begin
+   if ((LEIdProducto.Text = '') or (LEDescripcion.Text = '') or (LEStock.Text = '') or (LEPrecioU.Text = '') or (LECantMin.Text = '')) then
+     begin
+       ShowMessage('Ningun campo puede estar vacio');
+     end
+   else
+     begin
+       B := False;
+       DataModule1.FDTProducto.Close;
+       DataModule1.FDTProducto.Open;
+       while not DataModule1.FDTProducto.Eof do
+        begin
+          if ((DataModule1.FDTProducto.FieldByName('IdProducto').AsFloat) = (StrToFloat(LEIdProducto.Text)))  then
+             begin
+               B := True;
+             end;
+          DataModule1.FDTProducto.Next;
+        end;
+       DataModule1.FDTProducto.Close;
+       DataModule1.FDTProducto.Open;
+       if ((StrToInt(LEStock.text)) <= (StrToInt(LECantMin.Text))) then
+         begin
+           log := True;
+         end
+       else
+         begin
+           log := False;
+         end;
+       if B = True then
+         begin
+           ShowMessage('Ya existe un producto con ese número de registro');
+         end
+       else
+         begin
+           with DataModule1.FDTProducto do
+               begin
+                 Open;
+                 Append;
+                 FieldByName('IdProducto').AsFloat := StrToFloat(LEIdProducto.Text);
+                 FieldByName('Descripcion').AsString := LEDescripcion.Text;
+                 FieldByName('stock').AsInteger := StrToInt(LEStock.Text);
+                 FieldByName('PrecioU').AsFloat := StrToFloat(LEPrecioU.Text);
+                 FieldByName('CantMin').AsInteger := StrToInt(LECantMin.Text);
+                 FieldByName('Logico').AsBoolean := CHLogico.Checked;
+                 FieldByName('Bandera').AsBoolean := log;
+                 Post;
+                 ShowMessage('el alta se realizo con exito');
+               end;
+           LEIdProducto.Text := '';
+           LEDescripcion.Text := '';
+           LEStock.Text := '';
+           LEPrecioU.Text := '';
+           LECantMin.Text := '';
+           CHLogico.Checked := True;
+          end;
+     end;
+   DataModule1.FDTProducto.Close;
+   DataModule1.FDTProducto.Open;
+end;
+
+procedure TFProducto.BBBuscarClick(Sender: TObject);
+begin
+  if LEIdProducto.Text = '' then
+      begin
+        ShowMessage('Ingrese Id del producto a buscar ');
+      end
+   else
+      begin
+         DataModule1.FDTProducto.Locate('IdProducto', StrToInt(LEIdProducto.Text));
+         BBModificar.Enabled := True;
+
+      end;
+end;
+
+procedure TFProducto.BBEliminarClick(Sender: TObject);
+begin
+  buttonSelected := messagedlg('¿Esta seguro que desea eliminar el registro seleccionado?',mtWarning, mbOKCancel, 0);
+    if buttonSelected = mrOK     then
+      begin
+        with DataModule1.FDTProducto do
+          begin
+             Delete;
+          end;
+        ShowMessage('El registro se eliminó con exito');
+      end;
+    if buttonSelected = mrCancel then
+      begin
+        ShowMessage('Se canceló la operación');
+      end;
+end;
+
+procedure TFProducto.BBListarProdClick(Sender: TObject);
+begin
+  DataModule1.FDQListarProductos.Active := True;
+  FListarProductos.ShowModal;
+end;
+
+procedure TFProducto.BBModificarClick(Sender: TObject);
+begin
+if ((LEIdProducto.Text = '') or (LEDescripcion.Text = '') or (LEStock.Text = '') or (LEPrecioU.Text = '') or (LECantMin.Text = ''))then
+  begin
+   ShowMessage('Ningún campo puede estar vacio');
+  end
+else
+  begin
+   buttonSelected := messagedlg('Esta acción no modificará el ID del producto, ¿está seguro que desea modificar los demás campos del registro seleccionado con los valores en pantalla?',mtConfirmation, mbOKCancel, 0);
+    if buttonSelected = mrOK     then
+      begin
+        if ((StrToInt(LEStock.text)) <= (StrToInt(LECantMin.Text))) then
+         begin
+            log := True;
+         end
+       else
+         begin
+           log := False;
+         end;
+        with DataModule1.FDTProducto do
+          begin
+             Edit;
+             FieldByName('Descripcion').AsString := LEDescripcion.Text;
+             FieldByName('stock').AsInteger := StrToInt(LEStock.Text);
+             FieldByName('PrecioU').AsFloat := StrToFloat(LEPrecioU.Text);
+             FieldByName('CantMin').AsInteger := StrToInt(LECantMin.Text);
+             FieldByName('Logico').AsBoolean := CHLogico.Checked;
+             FieldByName('Bandera').AsBoolean := log;
+             Post;
+          end;
+        ShowMessage('El registro se modificó con exito');
+      end;
+    if buttonSelected = mrCancel then
+      begin
+        ShowMessage('Se canceló la operación');
+      end;
+  end;
+end;
+
+procedure TFProducto.BBVolverClick(Sender: TObject);
+begin
+  FProducto.Close;
+end;
+
+procedure TFProducto.DBGProductoCellClick(Column: TColumn);
+begin
+  LEIdProducto.Text := FloatToStr(DataModule1.FDTProducto.FieldByName('IdProducto').AsFloat);
+  LEDescripcion.Text := DataModule1.FDTProducto.FieldByName('Descripcion').AsString;
+  LEStock.Text := IntToStr(DataModule1.FDTProducto.FieldByName('stock').AsInteger);
+  LEPrecioU.Text := FloatToStr(DataModule1.FDTProducto.FieldByName('PrecioU').AsFloat);
+  LECantMin.Text := IntToStr(DataModule1.FDTProducto.FieldByName('CantMin').AsInteger);
+  if (DataModule1.FDTProducto.FieldByName('Logico').AsBoolean = True) then
+    begin
+      CHLogico.Checked := True;
+    end
+  else
+    begin
+      CHLogico.Checked := False;
+    end;
+end;
+
+procedure TFProducto.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  LEIdProducto.Text := '';
+  LEDescripcion.Text := '';
+  LEStock.Text := '';
+  LEPrecioU.Text := '';
+  LECantMin.Text := '';
+  CHLogico.Checked := True;
+end;
+
+procedure TFProducto.LEPrecioUKeyPress(Sender: TObject; var Key: Char);
+begin
+ if (key = '.') then
+   begin
+    key := #0;
+    key := ',';
+   end;
+
+  if not (CharInSet (UpCase(Key), ['0'..'9',',',#8])) then
+    begin
+      key:=#0;
+      showmessage('Por favor introduzca numeros')
+    end;
+end;
+
+procedure TFProducto.SBResmaClick(Sender: TObject);
+begin
+  FPrincipal.SBResma.Click;
+end;
+
+procedure TFProducto.SBTonerClick(Sender: TObject);
+begin
+  FPrincipal.SBToner.Click;
+end;
+
+end.

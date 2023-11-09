@@ -1,0 +1,127 @@
+object FBuscarEgreso: TFBuscarEgreso
+  Left = 0
+  Top = 0
+  Caption = 'Buscar Egreso'
+  ClientHeight = 324
+  ClientWidth = 460
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 8
+    Top = 8
+    Width = 148
+    Height = 13
+    Caption = 'Seleccione Modo de busqueda:'
+  end
+  object DateTimePicker1: TDateTimePicker
+    Left = 119
+    Top = 36
+    Width = 129
+    Height = 21
+    Date = 43252.921415243060000000
+    Time = 43252.921415243060000000
+    TabOrder = 0
+  end
+  object EDetalle: TEdit
+    Left = 263
+    Top = 88
+    Width = 186
+    Height = 21
+    TabOrder = 1
+    TextHint = 'Ingrese el detalle'
+  end
+  object DBGEgresos: TDBGrid
+    Left = 8
+    Top = 132
+    Width = 441
+    Height = 184
+    DataSource = DataModule1.DSEgresoBuscar
+    ReadOnly = True
+    TabOrder = 2
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IdEgreso'
+        Width = 40
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'FechaEg'
+        Width = 63
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Turno'
+        Width = 45
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Detalle'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Monto'
+        Width = 50
+        Visible = True
+      end>
+  end
+  object BBBuscarEgr: TBitBtn
+    Left = 368
+    Top = 32
+    Width = 81
+    Height = 33
+    Caption = '&Buscar'
+    Kind = bkHelp
+    NumGlyphs = 2
+    TabOrder = 3
+  end
+  object CBDetalleEnc: TComboBox
+    Left = 119
+    Top = 88
+    Width = 129
+    Height = 21
+    Style = csDropDownList
+    DropDownCount = 5
+    TabOrder = 4
+    TextHint = 'Click para desplegar'
+    Items.Strings = (
+      'Caja Central'
+      'Compra de Mercaderia'
+      'Pago Empleados'
+      'Pago Proveedor'
+      'Otro')
+  end
+  object CBFecha: TCheckBox
+    Left = 8
+    Top = 40
+    Width = 97
+    Height = 17
+    Caption = 'Filtrar por Fecha'
+    TabOrder = 5
+  end
+  object CheckBox1: TCheckBox
+    Left = 8
+    Top = 90
+    Width = 105
+    Height = 17
+    Caption = 'Filtrar por Detalle'
+    TabOrder = 6
+  end
+end

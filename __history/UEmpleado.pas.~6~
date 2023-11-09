@@ -1,0 +1,63 @@
+unit UEmpleado;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TFEmpleado = class(TForm)
+    DBGEmpleado: TDBGrid;
+    LEEmpleado: TLabeledEdit;
+    CBEstadoEmp: TComboBox;
+    Label1: TLabel;
+    BBAgregar: TBitBtn;
+    BBEliminar: TBitBtn;
+    BBModificar: TBitBtn;
+    BBBuscar: TBitBtn;
+    BBVolver: TBitBtn;
+    procedure BBAgregarClick(Sender: TObject);
+    procedure BBVolverClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FEmpleado: TFEmpleado;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+procedure TFEmpleado.BBAgregarClick(Sender: TObject);
+begin
+      if (LEEmpleado.Text = '') then
+         begin
+           ShowMessage('Ningún campo puede estar vacío');
+         end
+      else
+         begin
+           with DataModule1.FDTEmpleado do
+               begin
+                 Open;
+                 Append;
+                 FieldByName('NombreEmp').AsString    := LEEmpleado.Text;
+                 FieldByName('EstadoEmp').AsString := CBEstadoEmp.Text;
+                 Post;
+                 ShowMessage('el alta se realizo con exito');//realizar alta
+               end;
+         end;
+end;
+
+procedure TFEmpleado.BBVolverClick(Sender: TObject);
+begin
+    FEmpleado.Close;
+end;
+
+end.

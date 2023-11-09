@@ -1,0 +1,73 @@
+object FListarProductos: TFListarProductos
+  Left = 0
+  Top = 0
+  Caption = 'Sistema Goya - Lista de Productos con stock bajo'
+  ClientHeight = 302
+  ClientWidth = 704
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object DBGProducto: TDBGrid
+    Left = 22
+    Top = 17
+    Width = 665
+    Height = 120
+    TabStop = False
+    DataSource = DataModule1.DSListarProductos
+    ReadOnly = True
+    TabOrder = 0
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IdProducto'
+        Width = 59
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Descripcion'
+        Width = 300
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'stock'
+        Width = 65
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PrecioU'
+        Width = 70
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CantMin'
+        Width = 65
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Bandera'
+        Width = 31
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'Logico'
+        Visible = True
+      end>
+  end
+end

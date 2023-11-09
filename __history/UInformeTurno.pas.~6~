@@ -1,0 +1,30 @@
+unit UInformeTurno;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VPE_VCL, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TFInformeDia = class(TForm)
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FInformeDia: TFInformeDia;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+
+
+
+end.

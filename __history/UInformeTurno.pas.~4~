@@ -1,0 +1,123 @@
+unit UInformeTurno;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, VPE_VCL, Vcl.StdCtrls, Vcl.ComCtrls;
+
+type
+  TFInformeDia = class(TForm)
+    VPEngine1: TVPEngine;
+    DateTimePicker1: TDateTimePicker;
+    Label1: TLabel;
+    Label2: TLabel;
+    CBTurno: TComboBox;
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FInformeDia: TFInformeDia;
+
+implementation
+
+{$R *.dfm}
+
+uses UDataModule;
+
+ procedure TFInformeDia.GroupHeader(Fecha: String);
+  var y: double;
+  begin
+    Report.TextAlignment := ALIGN_LEFT;
+    y := Report.Print(1.5, Report.nBottom + 0.2, Format('[N S 14 C Blue]%s', [Fecha]));
+    y := y + 0.1;
+    Report.Print(1.5, y, '[S 10 C Purple]Clave');
+    Report.Write(3.5, y, 6, VFREE, '[R]Tipo de Cambio');
+    Report.Write(6.5, y, 19.5, VFREE, '[L]Descripción');
+  end;
+
+procedure TFInformeDia.DetailLine(color: TColor; Clave: String; TC:Real; Descrip: String);
+  var y: double;
+
+  begin
+    y := Report.nBottom;
+    Report.BkgMode := VBKG_SOLID;
+    Report.BkgColor := color;
+    Report.PenColor := color;
+    Report.Box(1.5, y, 19.5, LineHeight+0.3);
+    Report.BkgMode := VBKG_TRANSPARENT;
+
+    Report.WriteBox(1.5, y, -4, LineHeight+0.3, Format('[S 7 C Black L]%s', [Clave]));
+    Report.TextAlignment := ALIGN_RIGHT;
+    Report.WriteBox(3.5, y, 6, LineHeight+0.3, Format('%4.5n', [TC]));
+    Report.TextAlignment := ALIGN_LEFT;
+    Report.WriteBox(6.5, y, 19.5, LineHeight+0.3, Format('%s', [Descrip]));
+  end;
+
+  procedure TFInformeDia.generaReporte;
+  var
+    I: integer;
+    y: double;
+    color: TColor;
+    FechaCorte: TDateTime;
+  begin
+    if Report.IsOpen then Report.CloseDoc;
+    Report.OpenDoc;
+    Report.RenderPrintBox(0, 0, '[S 14 C Black]x');
+    LineHeight := -Report.nRenderHeight;
+    Report.AutoBreakMode := AUTO_BREAK_NO_LIMITS;
+    Report.SetPen(0.05, PS_SOLID, COLOR_BLACK);
+    Report.Picture(1.5, 1.0, 8.5, 3.0, 'Imagenes\DenM.bmp');
+    Report.WriteBox(9.5, 2.0, 19.5, 3, '[N S 9 CE I C Black BC Gray TO]Tipos de Cambio del ' +
+    FormatDateTime('dd "de" mmmm "de" yyyy',ZQuery1.ParamByName('INI').AsDate) + ' al ' +
+    FormatDateTime('dd "de" mmmm "de" yyyy',ZQuery1.ParamByName('FIN').AsDate) );
+    y := Report.nBottom + 1;
+    Report.Line(1.5, y, 19.5, y);
+    Report.nBottom := y + 0.1;
+    GroupHeader(FormatDateTime('d "de" mmmm "de" yyyy', ZQuery1.FieldByName('FECHA').AsDateTime));
+    FechaCorte := ZQuery1.FieldByName('FECHA').AsDateTime;
+
+    for I := 0 to ZQuery1.RecordCount-1 do
+    begin
+      if FechaCorte <> ZQuery1.FieldByName('FECHA').AsDateTime then
+      begin
+        GroupHeader(FormatDateTime('d "de" mmmm "de" yyyy', ZQuery1.FieldByName('FECHA').AsDateTime));
+        FechaCorte := ZQuery1.FieldByName('FECHA').AsDateTime;
+      end;
+      if I mod 2 = 0 then
+         color := COLOR_GRAY
+      else
+         color := COLOR_LTGRAY;
+      DetailLine(color, ZQuery1.FieldByName('Clave').AsString,
+  	                  ZQuery1.FieldByName('TipCamb').AsFloat,
+   					  ZQuery1.FieldByName('Descripcion').AsString);
+      ZQuery1.Next;
+    end;
+
+    Report.PageBreak;
+    Report.SetFont('Arial', 10);
+    Report.BkgMode := VBKG_SOLID;
+    Report.BkgColor := clRed;
+  end;
+
+
+procedure TFInformeDia.Button1Click(Sender: TObject);
+begin
+  DataModule1.FDQListarCuentas.Open;
+    if not DataModule1.FDQListarCuentas.IsEmpty then
+  begin
+    generaReporte;
+    Report.Preview;
+  end;
+
+  DataModule1.FDQListarCuentas.Close;
+
+end;
+
+
+end.
